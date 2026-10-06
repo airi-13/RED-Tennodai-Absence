@@ -1,149 +1,2786 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
 <title>欠席・振替申請</title>
+
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP","Yu Gothic",sans-serif}
-.container{max-width:720px;margin:0 auto;padding:20px 14px 40px}.card{background:#fff;border-radius:14px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:16px}
-h1{font-size:24px;margin:0 0 18px;text-align:center}.section-title{font-size:18px;font-weight:700;margin:4px 0 12px}
-label.field{display:block;font-weight:700;margin:14px 0 6px}input[type=text],input[type=date],input[type=email],textarea{width:100%;padding:12px;border:1px solid #cbd2dc;border-radius:8px;font-size:16px;background:#fff}textarea{min-height:90px;resize:vertical}
-.period-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.period-card{display:block;border:2px solid #d9dee7;border-radius:10px;padding:13px 8px;text-align:center;cursor:pointer;background:#fff;transition:.15s}.period-card input{position:absolute;opacity:0;pointer-events:none}.period-card.selected{background:#e8f1ff;border-color:#1976d2;color:#075ca8;font-weight:700}
-.note{font-size:13px;color:#666;margin-top:7px}.error{color:#c62828;font-weight:700;margin-top:8px;min-height:20px}.ok{color:#176b36;font-weight:700}.button{width:100%;border:0;border-radius:10px;padding:14px;font-size:17px;font-weight:700;cursor:pointer;background:#1976d2;color:#fff}.button:disabled{background:#b9c1cc;cursor:not-allowed}.secondary{background:#fff;color:#333;border:1px solid #bbb;margin-top:10px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hidden{display:none!important}.summary{background:#f7f8fa;border-radius:10px;padding:14px;line-height:1.8}.summary b{display:inline-block;min-width:125px}
-.checkline{display:flex;align-items:center;gap:8px;margin:10px 0;font-weight:600}.checkline input{width:18px;height:18px}
-@media(max-width:520px){.container{padding:12px 10px 30px}.card{padding:17px}.row{grid-template-columns:1fr}.period-grid{grid-template-columns:1fr 1fr}h1{font-size:21px}}
+
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+  margin: 0;
+  padding: 20px 12px 40px;
+
+  background: #f5f7fa;
+
+  color: #333;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    Meiryo,
+    sans-serif;
+}
+
+
+.container {
+
+  width: 100%;
+  max-width: 680px;
+
+  margin: 0 auto;
+
+  background: #fff;
+
+  border-radius: 12px;
+
+  padding: 24px;
+
+  box-shadow:
+    0 2px 10px rgba(0,0,0,0.08);
+}
+
+
+h1 {
+
+  margin: 0 0 24px;
+
+  font-size: 24px;
+
+  text-align: center;
+
+  color: #1f5fa8;
+}
+
+
+.notice {
+
+  background: transparent;
+
+  border: 2px solid #d35400;
+
+  padding: 14px;
+
+  margin-bottom: 24px;
+
+  border-radius: 5px;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+
+.notice strong {
+  color: #db3d19;
+}
+
+
+.form-group {
+
+  margin-bottom: 22px;
+}
+
+
+label.title {
+
+  display: block;
+
+  font-weight: bold;
+
+  margin-bottom: 8px;
+
+  font-size: 16px;
+}
+
+
+.required {
+
+  display: inline-block;
+
+  margin-left: 5px;
+
+  padding: 2px 6px;
+
+  font-size: 11px;
+
+  color: #fff;
+
+  background: #e74c3c;
+
+  border-radius: 4px;
+}
+
+
+input[type="text"],
+input[type="email"],
+input[type="date"] {
+
+  width: 100%;
+
+  height: 48px;
+
+  padding: 8px 12px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 6px;
+
+  font-size: 16px;
+
+  background: #fff;
+}
+
+
+input:focus {
+
+  outline: none;
+
+  border-color: #1f75cb;
+
+  box-shadow:
+    0 0 0 2px rgba(31,117,203,0.12);
+}
+
+
+input:disabled {
+
+  background: #f0f0f0;
+
+  color: #888;
+}
+
+
+.period-container {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+
+  margin-top: 10px;
+}
+
+
+.period-card {
+
+  position: relative;
+
+  cursor: pointer;
+}
+
+
+.period-card input {
+
+  position: absolute;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+.period-card label {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 72px;
+
+  padding: 10px;
+
+  border: 2px solid #d8dee5;
+
+  border-radius: 9px;
+
+  background: #fff;
+
+  cursor: pointer;
+
+  text-align: center;
+
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+
+.period-card label:hover {
+
+  border-color: #79aee8;
+
+  background: #f5faff;
+}
+
+
+.period-card input:checked + label {
+
+  border-color: #1f75cb;
+
+  background: #e8f2ff;
+
+  color: #12579d;
+
+  font-weight: bold;
+}
+
+
+.period-number {
+
+  font-size: 21px;
+
+  margin-bottom: 3px;
+}
+
+
+.period-time {
+
+  font-size: 13px;
+
+  font-weight: normal;
+}
+
+
+.checkbox-row {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 10px;
+
+  padding: 12px;
+
+  border: 1px solid #d8dee5;
+
+  border-radius: 8px;
+
+  background: #f8fbff;
+
+  font-size: 14px;
+}
+
+
+.checkbox-row input {
+
+  width: 18px;
+
+  height: 18px;
+
+  flex-shrink: 0;
+}
+
+
+.checkbox-row label {
+
+  cursor: pointer;
+
+  font-weight: bold;
+}
+
+
+.undecided-row {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 10px;
+
+  font-size: 14px;
+}
+
+
+.undecided-row input {
+
+  width: 18px;
+
+  height: 18px;
+}
+
+
+.help-text {
+
+  margin-top: 7px;
+
+  color: #666;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+.error {
+
+  margin-top: 7px;
+
+  color: #d93025;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+
+.confirm-button,
+.submit-button,
+.back-button {
+
+  width: 100%;
+
+  min-height: 52px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  font-size: 17px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+
+.confirm-button {
+
+  background: #1f75cb;
+
+  color: #fff;
+
+  margin-top: 10px;
+}
+
+
+.confirm-button:disabled {
+
+  background: #c8cdd3;
+
+  cursor: not-allowed;
+}
+
+
+.submit-button {
+
+  background: #1f75cb;
+
+  color: #fff;
+
+  margin-top: 10px;
+}
+
+
+.submit-button:disabled,
+.back-button:disabled {
+
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+
+.back-button {
+
+  background: #e9ecef;
+
+  color: #333;
+
+  margin-top: 10px;
+}
+
+
+.confirmation {
+
+  display: none;
+}
+
+
+.confirmation-item {
+
+  border-bottom: 1px solid #eee;
+
+  padding: 13px 0;
+
+}
+
+
+.confirmation-label {
+
+  font-size: 13px;
+
+  color: #666;
+
+  margin-bottom: 4px;
+}
+
+
+.confirmation-value {
+
+  font-size: 16px;
+
+  white-space: pre-wrap;
+
+  word-break: break-word;
+}
+
+
+.success {
+
+  display: none;
+
+  text-align: center;
+
+  padding: 30px 10px;
+}
+
+
+.success h2 {
+
+  color: #1f75cb;
+
+  margin-bottom: 15px;
+}
+
+
+.loading {
+
+  display: none;
+
+  text-align: center;
+
+  margin-top: 15px;
+
+  color: #555;
+}
+
+
+.hidden {
+  display: none !important;
+}
+
+
+@media (max-width: 480px) {
+
+  body {
+    padding: 10px 8px 30px;
+  }
+
+  .container {
+    padding: 18px 14px;
+    border-radius: 8px;
+  }
+
+  h1 {
+    font-size: 21px;
+  }
+
+  .period-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .period-card label {
+    min-height: 68px;
+  }
+
+}
+
 </style>
+
 </head>
+
+
 <body>
+
+
 <div class="container">
-  <div class="card">
-    <h1>欠席・振替申請</h1>
-    <label class="field">生徒ID</label><input id="studentId" type="text" inputmode="numeric" autocomplete="off">
-    <label class="field">生徒名</label><input id="studentName" type="text" autocomplete="name">
-    <label class="field">メールアドレス</label><input id="email" type="email" autocomplete="email">
-  </div>
 
-  <div class="card">
-    <div class="section-title">欠席希望</div>
-    <label class="field">欠席希望日</label><input id="absenceDate" type="date">
-    <div id="absenceDayMessage" class="note"></div>
-    <label class="field">欠席時間</label>
-    <div id="absencePeriods" class="period-grid"></div>
-    <div id="absenceError" class="error"></div>
-  </div>
 
-  <div class="card">
-    <div class="section-title">振替希望</div>
-    <label class="checkline"><input id="undecided" type="checkbox"> 振替日未定</label>
-    <div id="makeupFields">
-      <label class="field">振替希望日</label><input id="makeupDate" type="date">
-      <div id="makeupDayMessage" class="note"></div>
-      <label class="field">振替希望時間</label>
-      <div id="makeupPeriods" class="period-grid"></div>
-    </div>
-    <div id="makeupError" class="error"></div>
-  </div>
+<!-- ============================= -->
+<!-- 入力画面 -->
+<!-- ============================= -->
 
-  <div class="card">
-    <label class="field">連絡事項（任意）</label><textarea id="notes"></textarea>
-    <div id="validationMessage" class="error"></div>
-    <button id="confirmButton" class="button" disabled>確認画面へ</button>
-  </div>
+<div id="formScreen">
 
-  <div id="confirmCard" class="card hidden">
-    <div class="section-title">申請内容の確認</div>
-    <div id="summary" class="summary"></div>
-    <button id="submitButton" class="button" style="margin-top:14px">この内容で申請する</button>
-    <button id="backButton" class="button secondary">戻る</button>
-    <div id="submitMessage" class="error"></div>
-  </div>
+<h1>欠席・振替申請</h1>
+
+
+<div class="notice">
+
+欠席振替ルール<br>
+
+欠席申請〆切：授業開始5分前まで<br>
+振替日：欠席日から4週間以内<br><br>
+振替日が決まっていない場合<br>
+①「振替日未定」にチェックして欠席登録のみ申請<br>
+②後日、振替日時が決まり次第「欠席登録済み」にチェックをいれ、振替日時登録を再申請
+
 </div>
 
-<script>
-const API_URL="/api/submit";
-const PERIODS={
- "①":"15:00～15:40","②":"15:45～16:25","③":"16:30～17:10","④":"17:15～17:55",
- "⑤":"18:00～18:40","⑥":"18:45～19:25","⑦":"19:30～20:10","⑧":"20:15～20:55"
-};
-const AVAILABLE={0:[],1:[],2:["④","⑤","⑥","⑦","⑧"],3:["③","④","⑤","⑥","⑦"],4:["④","⑤","⑥","⑦","⑧"],5:["③","④","⑤","⑥","⑦"],6:["①","②","③","④","⑤"]};
-const $=id=>document.getElementById(id);
-const selected=(root)=>[...root.querySelectorAll("input:checked")].map(x=>x.value);
 
-function dateObj(v){if(!/^\d{4}-\d{2}-\d{2}$/.test(v))return null;const [y,m,d]=v.split("-").map(Number);const x=new Date(y,m-1,d);return x.getFullYear()===y&&x.getMonth()===m-1&&x.getDate()===d?x:null}
-function jpDate(v){const d=dateObj(v);return d?(d.getMonth()+1)+"月"+d.getDate()+"日（"+"日月火水木金土"[d.getDay()]+"）":"未定"}
-function renderPeriods(root, dateValue, type){
-  root.innerHTML="";
-  const d=dateObj(dateValue); if(!d)return;
-  if(!AVAILABLE[d.getDay()].length){$(type+"DayMessage").textContent="休校日です";return}
-  $(type+"DayMessage").textContent="";
-  AVAILABLE[d.getDay()].forEach(p=>{
-    const label=document.createElement("label"); label.className="period-card";
-    label.innerHTML='<input type="checkbox" value="'+p+'"><div>'+p+'<br><small>'+PERIODS[p]+'</small></div>';
-    const input=label.querySelector("input");
-    input.addEventListener("change",()=>{label.classList.toggle("selected",input.checked);validate()});
-    root.appendChild(label);
+<!-- 生徒番号 -->
+
+<div class="form-group">
+
+<label class="title">
+生徒番号
+<span class="required">必須</span>
+</label>
+
+<input
+  type="text"
+  id="studentId"
+  inputmode="numeric"
+  autocomplete="off"
+  placeholder="例：113900000"
+>
+
+
+<div
+  id="studentIdError"
+  class="error"
+></div>
+
+<div class="help-text">
+※LINEのグループで送信された1139から始まる生徒番号を入力してください。
+</div>
+
+</div>
+
+
+<!-- 生徒名 -->
+
+<div class="form-group">
+
+<label class="title">
+生徒名
+<span class="required">必須</span>
+</label>
+
+<input
+  type="text"
+  id="studentName"
+  autocomplete="name"
+  placeholder="例：山田 太郎"
+>
+
+<div
+  id="studentNameError"
+  class="error"
+></div>
+
+</div>
+
+
+
+
+<!-- 欠席日時 -->
+
+<div id="absenceSection">
+
+
+<!-- 欠席希望日 -->
+
+<div class="form-group">
+
+<label class="title">
+欠席希望日
+<span class="required">必須</span>
+</label>
+
+<input
+  type="date"
+  id="absenceDate"
+>
+
+<div
+  id="absenceDateError"
+  class="error"
+></div>
+
+</div>
+
+
+<!-- 欠席登録済み振替 -->
+
+<div class="form-group">
+
+<div class="undecided-row">
+
+<input
+  type="checkbox"
+  id="registeredAbsenceMakeup"
+>
+
+<label for="registeredAbsenceMakeup">
+欠席登録済み
+</label>
+
+</div>
+
+<div class="help-text">
+※以前、振替日未定で欠席登録済みの場合はチェックを入れてください。
+</div>
+
+
+
+</div>
+
+<!-- 欠席時間 -->
+
+<div class="form-group">
+
+<label class="title">
+欠席する時間
+<span class="required">必須</span>
+</label>
+
+<div
+  id="absencePeriods"
+  class="period-container"
+></div>
+
+<div
+  id="absencePeriodsError"
+  class="error"
+></div>
+
+</div>
+
+</div>
+
+
+<!-- 振替希望日 -->
+
+<div class="form-group">
+
+<label class="title">
+振替希望日
+<span class="required">必須</span>
+</label>
+
+<input
+  type="date"
+  id="makeupDate"
+>
+
+<div
+  id="makeupDateError"
+  class="error"
+></div>
+
+
+<div class="undecided-row">
+
+<div class="help-text">
+※振替日が決まっていない場合はこちらにチェックしてください。
+</div>
+
+<input
+  type="checkbox"
+  id="makeupUndecided"
+>
+
+<label for="makeupUndecided">
+振替日未定
+</label>
+
+</div>
+
+
+
+
+</div>
+
+
+<!-- 振替希望時間 -->
+
+<div
+  id="makeupPeriodGroup"
+  class="form-group"
+>
+
+<label class="title">
+振替希望時間
+<span class="required">必須</span>
+</label>
+
+<div
+  id="makeupPeriods"
+  class="period-container"
+></div>
+
+<div
+  id="makeupPeriodsError"
+  class="error"
+></div>
+
+</div>
+
+
+<!-- 連絡事項 -->
+
+<div class="form-group">
+
+<label class="title">
+連絡事項
+</label>
+
+<input
+  type="text"
+  id="notes"
+  placeholder="連絡事項があれば入力してください"
+>
+
+</div>
+
+
+<!-- メール -->
+
+<div class="form-group">
+
+<label class="title">
+メールアドレス
+<span class="required">必須</span>
+</label>
+
+<input
+  type="email"
+  id="email"
+  autocomplete="email"
+  placeholder="確認メールを受け取るメールアドレス"
+>
+
+<div
+  id="emailError"
+  class="error"
+></div>
+
+</div>
+
+
+<button
+  type="button"
+  id="confirmButton"
+  class="confirm-button"
+  disabled
+>
+入力内容を確認する
+</button>
+
+</div>
+
+
+<!-- ============================= -->
+<!-- 確認画面 -->
+<!-- ============================= -->
+
+<div
+  id="confirmationScreen"
+  class="confirmation"
+>
+
+<h1>入力内容の確認</h1>
+
+
+<div class="confirmation-item">
+
+<div class="confirmation-label">
+申請区分
+</div>
+
+<div
+  id="confirmApplicationType"
+  class="confirmation-value"
+></div>
+
+</div>
+
+
+<div class="confirmation-item">
+
+<div class="confirmation-label">
+生徒番号
+</div>
+
+<div
+  id="confirmStudentId"
+  class="confirmation-value"
+></div>
+
+</div>
+
+
+<div class="confirmation-item">
+
+<div class="confirmation-label">
+生徒名
+</div>
+
+<div
+  id="confirmStudentName"
+  class="confirmation-value"
+></div>
+
+</div>
+
+
+<div class="confirmation-item">
+
+<div class="confirmation-label">
+欠席希望日
+</div>
+
+<div
+  id="confirmAbsenceDate"
+  class="confirmation-value"
+></div>
+
+</div>
+
+
+<div class="confirmation-item">
+
+<div class="confirmation-label">
+欠席する時間
+</div>
+
+<div
+  id="confirmAbsencePeriods"
+  class="confirmation-value"
+></div>
+
+</div>
+
+
+<div class="confirmation-item">
+
+<div class="confirmation-label">
+振替希望日
+</div>
+
+<div
+  id="confirmMakeupDate"
+  class="confirmation-value"
+></div>
+
+</div>
+
+
+<div class="confirmation-item">
+
+<div class="confirmation-label">
+振替希望時間
+</div>
+
+<div
+  id="confirmMakeupPeriods"
+  class="confirmation-value"
+></div>
+
+</div>
+
+
+<div class="confirmation-item">
+
+<div class="confirmation-label">
+連絡事項
+</div>
+
+<div
+  id="confirmNotes"
+  class="confirmation-value"
+></div>
+
+</div>
+
+
+<div class="confirmation-item">
+
+<div class="confirmation-label">
+メールアドレス
+</div>
+
+<div
+  id="confirmEmail"
+  class="confirmation-value"
+></div>
+
+</div>
+
+
+<button
+  type="button"
+  id="submitButton"
+  class="submit-button"
+>
+この内容で申請する
+</button>
+
+
+<button
+  type="button"
+  id="backButton"
+  class="back-button"
+>
+入力画面に戻る
+</button>
+
+
+<div
+  id="loading"
+  class="loading"
+>
+送信しています。しばらくお待ちください。
+</div>
+
+</div>
+
+
+<!-- ============================= -->
+<!-- 完了画面 -->
+<!-- ============================= -->
+
+<div
+  id="successScreen"
+  class="success"
+>
+
+<h2>申請を受け付けました</h2>
+
+<p>
+申請内容を確認しました。
+</p>
+
+<p>
+入力いただいたメールアドレスに<br>
+受付確認メールを送信しています。
+</p>
+
+<p>
+訂正がある場合は再申請を行い、連絡事項にその旨ご記入の上お願いします。
+</p>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+// ========================================
+// DOM
+// ========================================
+
+const studentId =
+  document.getElementById("studentId");
+
+const studentName =
+  document.getElementById("studentName");
+
+const absenceDate =
+  document.getElementById("absenceDate");
+
+const absencePeriodsContainer =
+  document.getElementById("absencePeriods");
+
+const absenceSection =
+  document.getElementById("absenceSection");
+
+const registeredAbsenceMakeup =
+  document.getElementById(
+    "registeredAbsenceMakeup"
+  );
+
+const makeupDate =
+  document.getElementById("makeupDate");
+
+const makeupUndecided =
+  document.getElementById("makeupUndecided");
+
+const makeupPeriodsContainer =
+  document.getElementById("makeupPeriods");
+
+const makeupPeriodGroup =
+  document.getElementById("makeupPeriodGroup");
+
+const notes =
+  document.getElementById("notes");
+
+const email =
+  document.getElementById("email");
+
+const confirmButton =
+  document.getElementById("confirmButton");
+
+const confirmationScreen =
+  document.getElementById(
+    "confirmationScreen"
+  );
+
+const formScreen =
+  document.getElementById("formScreen");
+
+const successScreen =
+  document.getElementById("successScreen");
+
+
+// ========================================
+// 時間枠
+// ========================================
+
+const PERIODS = {
+
+  "①": "15:00～15:40",
+
+  "②": "15:45～16:25",
+
+  "③": "16:30～17:10",
+
+  "④": "17:15～17:55",
+
+  "⑤": "18:00～18:40",
+
+  "⑥": "18:45～19:25",
+
+  "⑦": "19:30～20:10",
+
+  "⑧": "20:15～20:55"
+
+};
+
+
+// ========================================
+// 曜日別時間枠
+//
+// 日：なし
+// 月：なし
+// 火：④～⑧
+// 水：③～⑦
+// 木：④～⑧
+// 金：③～⑦
+// 土：①～⑤
+// ========================================
+
+const AVAILABLE_PERIODS = {
+
+  0: [],
+
+  1: [],
+
+  2: [
+    "④",
+    "⑤",
+    "⑥",
+    "⑦",
+    "⑧"
+  ],
+
+  3: [
+    "③",
+    "④",
+    "⑤",
+    "⑥",
+    "⑦"
+  ],
+
+  4: [
+    "④",
+    "⑤",
+    "⑥",
+    "⑦",
+    "⑧"
+  ],
+
+  5: [
+    "③",
+    "④",
+    "⑤",
+    "⑥",
+    "⑦"
+  ],
+
+  6: [
+    "①",
+    "②",
+    "③",
+    "④",
+    "⑤"
+  ]
+
+};
+
+
+// ========================================
+// 日付関連
+// ========================================
+
+function getDayFromDate(dateString) {
+
+  if (!dateString) {
+    return null;
+  }
+
+  const match =
+    /^(\d{4})-(\d{2})-(\d{2})$/
+      .exec(dateString);
+
+  if (!match) {
+    return null;
+  }
+
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
+
+  const day =
+    Number(match[3]);
+
+  const date =
+    new Date(
+      year,
+      month - 1,
+      day
+    );
+
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return null;
+  }
+
+  return date.getDay();
+}
+
+
+function parseDateClient(dateString) {
+
+  if (!dateString) {
+    return null;
+  }
+
+  const match =
+    /^(\d{4})-(\d{2})-(\d{2})$/
+      .exec(dateString);
+
+  if (!match) {
+    return null;
+  }
+
+  return new Date(
+    Number(match[1]),
+    Number(match[2]) - 1,
+    Number(match[3])
+  );
+}
+
+
+// ========================================
+// 今日の日付
+// ========================================
+
+function getTodayString() {
+
+  const today =
+    new Date();
+
+  const year =
+    today.getFullYear();
+
+  const month =
+    String(
+      today.getMonth() + 1
+    ).padStart(2, "0");
+
+  const day =
+    String(
+      today.getDate()
+    ).padStart(2, "0");
+
+  return (
+    year +
+    "-" +
+    month +
+    "-" +
+    day
+  );
+}
+
+
+// ========================================
+// 今日を最低日付に設定
+//
+// 通常モードのみ今日以降。
+// 「欠席登録済みの授業の振替」
+// チェックありなら過去も許可。
+// ========================================
+
+function updateAbsenceDateRange() {
+
+  if (
+    registeredAbsenceMakeup.checked
+  ) {
+
+    absenceDate.min = "";
+
+  } else {
+
+    absenceDate.min =
+      getTodayString();
+
+    // 現在値が過去ならクリア
+    if (
+      absenceDate.value &&
+      absenceDate.value <
+        absenceDate.min
+    ) {
+
+      absenceDate.value = "";
+
+      clearPeriodCards(
+        absencePeriodsContainer
+      );
+    }
+  }
+}
+
+
+// ========================================
+// 欠席時間枠
+// ========================================
+
+function updateAbsencePeriods() {
+
+  const day =
+    getDayFromDate(
+      absenceDate.value
+    );
+
+  createPeriodCards(
+    absencePeriodsContainer,
+    day,
+    "absence"
+  );
+}
+
+
+// ========================================
+// 振替日範囲
+//
+// 欠席日当日～28日後
+// ========================================
+
+function updateMakeupDateRange() {
+
+  if (!absenceDate.value) {
+
+    makeupDate.min = "";
+    makeupDate.max = "";
+
+    return;
+  }
+
+
+  const absence =
+    parseDateClient(
+      absenceDate.value
+    );
+
+  if (!absence) {
+    return;
+  }
+
+
+  const minDate =
+    new Date(absence);
+
+  const maxDate =
+    new Date(absence);
+
+
+  maxDate.setDate(
+    maxDate.getDate() + 28
+  );
+
+
+  function formatDate(date) {
+
+    const year =
+      date.getFullYear();
+
+    const month =
+      String(
+        date.getMonth() + 1
+      ).padStart(2, "0");
+
+    const day =
+      String(
+        date.getDate()
+      ).padStart(2, "0");
+
+    return (
+      year +
+      "-" +
+      month +
+      "-" +
+      day
+    );
+  }
+
+
+  makeupDate.min =
+    formatDate(minDate);
+
+  makeupDate.max =
+    formatDate(maxDate);
+
+
+  // 現在値が範囲外ならクリア
+  if (
+    makeupDate.value &&
+    (
+      makeupDate.value <
+        makeupDate.min ||
+
+      makeupDate.value >
+        makeupDate.max
+    )
+  ) {
+
+    makeupDate.value = "";
+
+    clearPeriodCards(
+      makeupPeriodsContainer
+    );
+  }
+}
+
+
+// ========================================
+// 振替時間枠を安全に再描画
+// ========================================
+
+let makeupRefreshTimer = null;
+
+
+function scheduleMakeupPeriodRefresh() {
+
+  if (
+    makeupRefreshTimer !== null
+  ) {
+
+    clearTimeout(
+      makeupRefreshTimer
+    );
+  }
+
+
+  makeupRefreshTimer =
+    setTimeout(
+      function() {
+
+        makeupRefreshTimer =
+          null;
+
+        refreshMakeupPeriods();
+
+        updateConfirmButtonState();
+
+      },
+      0
+    );
+}
+
+
+// ========================================
+// 振替時間枠を再描画
+// ========================================
+
+function refreshMakeupPeriods() {
+
+  // 未定なら表示しない
+  if (
+    makeupUndecided.checked
+  ) {
+
+    clearPeriodCards(
+      makeupPeriodsContainer
+    );
+
+    return;
+  }
+
+
+  // 振替日が未選択
+  if (!makeupDate.value) {
+
+    clearPeriodCards(
+      makeupPeriodsContainer
+    );
+
+    makeupPeriodsContainer.innerHTML =
+      '<div class="help-text">' +
+      '振替希望日を選択してください。' +
+      '</div>';
+
+    return;
+  }
+
+
+  const day =
+    getDayFromDate(
+      makeupDate.value
+    );
+
+
+  createPeriodCards(
+    makeupPeriodsContainer,
+    day,
+    "makeup"
+  );
+}
+
+
+// ========================================
+// 振替日状態
+// ========================================
+
+function updateMakeupDateState() {
+
+  if (
+    makeupUndecided.checked
+  ) {
+
+    makeupDate.disabled = true;
+
+    makeupPeriodGroup.classList.add(
+      "hidden"
+    );
+
+    clearPeriodCards(
+      makeupPeriodsContainer
+    );
+
+  } else {
+
+    makeupDate.disabled = false;
+
+    makeupPeriodGroup.classList.remove(
+      "hidden"
+    );
+
+    scheduleMakeupPeriodRefresh();
+  }
+}
+
+
+// ========================================
+// 欠席登録済み振替モード変更
+// ========================================
+
+function handleRegisteredAbsenceMakeupChange() {
+
+  updateAbsenceDateRange();
+
+  updateAbsencePeriods();
+
+  updateMakeupDateRange();
+
+  scheduleMakeupPeriodRefresh();
+
+  updateConfirmButtonState();
+}
+
+
+// ========================================
+// 欠席日変更
+// ========================================
+
+function handleAbsenceDateChange() {
+
+  updateAbsencePeriods();
+
+  updateMakeupDateRange();
+
+  updateMakeupDateState();
+
+  scheduleMakeupPeriodRefresh();
+
+  updateConfirmButtonState();
+}
+
+
+// ========================================
+// 振替日変更
+// ========================================
+
+function handleMakeupDateChange() {
+
+  updateMakeupDateRange();
+
+  scheduleMakeupPeriodRefresh();
+
+  updateConfirmButtonState();
+}
+
+
+// ========================================
+// 未定変更
+// ========================================
+
+function handleMakeupUndecidedChange() {
+
+  updateMakeupDateState();
+
+  updateConfirmButtonState();
+}
+
+
+// ========================================
+// 時間枠カード生成
+// ========================================
+
+function createPeriodCards(
+  container,
+  day,
+  type
+) {
+
+  // 現在選択されている時間枠を保存
+  const selectedPeriods =
+    Array.from(
+      container.querySelectorAll(
+        'input[type="checkbox"]:checked'
+      )
+    ).map(
+      checkbox => checkbox.value
+    );
+
+
+  container.innerHTML = "";
+
+
+  // 日付未選択
+  if (
+    day === null ||
+    day === undefined
+  ) {
+
+    container.innerHTML =
+      '<div class="help-text">' +
+      '日付を選択してください。' +
+      '</div>';
+
+    return;
+  }
+
+
+  // 日曜・月曜
+  if (
+    day === 0 ||
+    day === 1
+  ) {
+
+    container.innerHTML =
+      '<div class="help-text">' +
+      '休校日です。' +
+      '</div>';
+
+    return;
+  }
+
+
+  const periods =
+    AVAILABLE_PERIODS[day] || [];
+
+
+  if (!periods.length) {
+
+    container.innerHTML =
+      '<div class="help-text">' +
+      '選択できる時間枠がありません。' +
+      '</div>';
+
+    return;
+  }
+
+
+  periods.forEach(
+    function(period, index) {
+
+      const wrapper =
+        document.createElement(
+          "div"
+        );
+
+      wrapper.className =
+        "period-card";
+
+
+      const input =
+        document.createElement(
+          "input"
+        );
+
+      input.type =
+        "checkbox";
+
+      input.id =
+        type +
+        "Period" +
+        index;
+
+      input.name =
+        type +
+        "Periods";
+
+      input.value =
+        period;
+
+
+      // 以前選択していた時間枠を維持
+      if (
+        selectedPeriods.includes(
+          period
+        )
+      ) {
+
+        input.checked = true;
+      }
+
+
+      const label =
+        document.createElement(
+          "label"
+        );
+
+      label.htmlFor =
+        input.id;
+
+
+      const number =
+        document.createElement(
+          "span"
+        );
+
+      number.className =
+        "period-number";
+
+      number.textContent =
+        period;
+
+
+      const time =
+        document.createElement(
+          "span"
+        );
+
+      time.className =
+        "period-time";
+
+      time.textContent =
+        PERIODS[period];
+
+
+      label.appendChild(number);
+
+      label.appendChild(time);
+
+
+      wrapper.appendChild(input);
+
+      wrapper.appendChild(label);
+
+      container.appendChild(wrapper);
+
+
+      input.addEventListener(
+        "change",
+        updateConfirmButtonState
+      );
+
+    }
+  );
+}
+
+
+// ========================================
+// 時間枠クリア
+// ========================================
+
+function clearPeriodCards(
+  container
+) {
+
+  container.innerHTML = "";
+}
+
+
+// ========================================
+// 選択時間取得
+// ========================================
+
+function getSelectedPeriods(
+  container
+) {
+
+  return Array.from(
+    container.querySelectorAll(
+      'input[type="checkbox"]:checked'
+    )
+  ).map(
+    checkbox => checkbox.value
+  );
+}
+
+
+// ========================================
+// メールアドレス
+// ========================================
+
+function isValidEmailClient(
+  value
+) {
+
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    .test(value);
+}
+
+
+// ========================================
+// 今日の授業が
+// 現在時刻＋5分以降かチェック
+// ========================================
+
+function isPeriodAvailableFiveMinutesBefore(
+  dateString,
+  period
+) {
+
+  if (!dateString) {
+    return true;
+  }
+
+
+  // 今日以外なら時間制限なし
+  const todayString =
+    getTodayString();
+
+  if (
+    dateString >
+    todayString
+  ) {
+    return true;
+  }
+
+
+  // 過去の日付は通常モードでは不可
+  if (
+    dateString <
+    todayString
+  ) {
+    return false;
+  }
+
+
+  const startTimes = {
+
+    "①": [15, 0],
+    "②": [15, 45],
+    "③": [16, 30],
+    "④": [17, 15],
+    "⑤": [18, 0],
+    "⑥": [18, 45],
+    "⑦": [19, 30],
+    "⑧": [20, 15]
+
+  };
+
+
+  const start =
+    startTimes[
+      String(period)
+    ];
+
+  if (!start) {
+    return false;
+  }
+
+
+  const now =
+    new Date();
+
+
+  const limit =
+    new Date(
+      now.getTime() +
+      5 * 60 * 1000
+    );
+
+
+  const lessonStart =
+    new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      start[0],
+      start[1],
+      0,
+      0
+    );
+
+
+  return (
+    lessonStart >= limit
+  );
+}
+
+
+// ========================================
+// フォームチェック
+// ========================================
+
+function validateForm() {
+
+  const errors = [];
+
+
+  // =========================
+  // 生徒番号
+  // =========================
+
+  if (
+    !studentId.value.trim()
+  ) {
+
+    errors.push(
+      "生徒番号"
+    );
+
+    document.getElementById(
+      "studentIdError"
+    ).textContent =
+      "生徒番号を入力してください。";
+
+  } else if (
+    !/^\d+$/.test(
+      studentId.value.trim()
+    )
+  ) {
+
+    errors.push(
+      "生徒番号"
+    );
+
+    document.getElementById(
+      "studentIdError"
+    ).textContent =
+      "生徒番号は半角数字で入力してください。";
+
+  } else {
+
+    document.getElementById(
+      "studentIdError"
+    ).textContent = "";
+  }
+
+
+  // =========================
+  // 生徒名
+  // =========================
+
+  if (
+    !studentName.value.trim()
+  ) {
+
+    errors.push(
+      "生徒名"
+    );
+
+    document.getElementById(
+      "studentNameError"
+    ).textContent =
+      "生徒名を入力してください。";
+
+  } else {
+
+    document.getElementById(
+      "studentNameError"
+    ).textContent = "";
+  }
+
+
+  // =========================
+  // 欠席日
+  // =========================
+
+  if (
+    !absenceDate.value
+  ) {
+
+    errors.push(
+      "欠席日"
+    );
+
+    document.getElementById(
+      "absenceDateError"
+    ).textContent =
+      "欠席希望日を選択してください。";
+
+  } else {
+
+    const day =
+      getDayFromDate(
+        absenceDate.value
+      );
+
+
+    if (
+      day === 0 ||
+      day === 1
+    ) {
+
+      errors.push(
+        "欠席日"
+      );
+
+      document.getElementById(
+        "absenceDateError"
+      ).textContent =
+        "日曜日・月曜日は休校日です。";
+
+    } else {
+
+      // 通常モードの場合のみ
+      // 今日以前の日付を禁止
+      if (
+        !registeredAbsenceMakeup.checked &&
+        absenceDate.value <
+          getTodayString()
+      ) {
+
+        errors.push(
+          "欠席日"
+        );
+
+        document.getElementById(
+          "absenceDateError"
+        ).textContent =
+          "過去の欠席日時は選択できません。";
+
+      } else {
+
+        document.getElementById(
+          "absenceDateError"
+        ).textContent = "";
+      }
+    }
+  }
+
+
+  // =========================
+  // 欠席時間
+  // =========================
+
+  const absencePeriods =
+    getSelectedPeriods(
+      absencePeriodsContainer
+    );
+
+
+  if (
+    !absencePeriods.length
+  ) {
+
+    errors.push(
+      "欠席時間"
+    );
+
+    document.getElementById(
+      "absencePeriodsError"
+    ).textContent =
+      "欠席する時間を選択してください。";
+
+  } else {
+
+    let periodError = "";
+
+
+    // 通常モードのみ
+    // 現在時刻＋5分チェック
+    if (
+      !registeredAbsenceMakeup.checked
+    ) {
+
+      for (
+        const period
+        of absencePeriods
+      ) {
+
+        if (
+          !isPeriodAvailableFiveMinutesBefore(
+            absenceDate.value,
+            period
+          )
+        ) {
+
+          periodError =
+            absenceDate.value ===
+              getTodayString()
+
+              ? (
+                  period +
+                  "コマ（" +
+                  PERIODS[period] +
+                  "）は、授業開始5分前を過ぎているため選択できません。"
+                )
+
+              : "過去の欠席日時は選択できません。";
+
+          break;
+        }
+      }
+    }
+
+
+    if (periodError) {
+
+      errors.push(
+        "欠席時間"
+      );
+
+      document.getElementById(
+        "absencePeriodsError"
+      ).textContent =
+        periodError;
+
+    } else {
+
+      document.getElementById(
+        "absencePeriodsError"
+      ).textContent = "";
+    }
+  }
+
+
+  // =========================
+  // 振替日
+  // =========================
+
+  if (
+    !makeupUndecided.checked
+  ) {
+
+    if (
+      !makeupDate.value
+    ) {
+
+      errors.push(
+        "振替日"
+      );
+
+      document.getElementById(
+        "makeupDateError"
+      ).textContent =
+        "振替希望日を選択してください。";
+
+    } else {
+
+      const makeupDay =
+        getDayFromDate(
+          makeupDate.value
+        );
+
+
+      if (
+        makeupDay === 0 ||
+        makeupDay === 1
+      ) {
+
+        errors.push(
+          "振替日"
+        );
+
+        document.getElementById(
+          "makeupDateError"
+        ).textContent =
+          "日曜日・月曜日は休校日です。";
+
+      } else {
+
+        // 4週間チェック
+        const absence =
+          parseDateClient(
+            absenceDate.value
+          );
+
+        const makeup =
+          parseDateClient(
+            makeupDate.value
+          );
+
+
+        if (
+          absence &&
+          makeup
+        ) {
+
+          absence.setHours(
+            0,
+            0,
+            0,
+            0
+          );
+
+          makeup.setHours(
+            0,
+            0,
+            0,
+            0
+          );
+
+
+          const maxDate =
+            new Date(absence);
+
+          maxDate.setDate(
+            maxDate.getDate() + 28
+          );
+
+
+          if (
+            makeup < absence ||
+            makeup > maxDate
+          ) {
+
+            errors.push(
+              "振替日"
+            );
+
+            document.getElementById(
+              "makeupDateError"
+            ).textContent =
+              "振替日は欠席日から4週間以内の日付を選択してください。";
+
+          } else {
+
+            document.getElementById(
+              "makeupDateError"
+            ).textContent = "";
+          }
+
+        } else {
+
+          document.getElementById(
+            "makeupDateError"
+          ).textContent = "";
+        }
+      }
+    }
+
+
+    // =========================
+    // 振替時間
+    // =========================
+
+    const makeupPeriods =
+      getSelectedPeriods(
+        makeupPeriodsContainer
+      );
+
+
+    if (
+      makeupPeriods.length !== absencePeriods.length
+    ) {
+
+      errors.push(
+        "振替コマ数"
+      );
+
+      document.getElementById(
+        "makeupPeriodsError"
+      ).textContent =
+        "欠席するコマ数と振替するコマ数を同じにしてください。" +
+        "（欠席：" + absencePeriods.length + "コマ／振替：" + makeupPeriods.length + "コマ）";
+
+    } else if (
+      !makeupPeriods.length
+    ) {
+
+      errors.push(
+        "振替時間"
+      );
+
+      document.getElementById(
+        "makeupPeriodsError"
+      ).textContent =
+        "振替希望時間を選択してください。";
+
+    } else {
+
+      document.getElementById(
+        "makeupPeriodsError"
+      ).textContent = "";
+    }
+
+  } else {
+
+    document.getElementById(
+      "makeupDateError"
+    ).textContent = "";
+
+    document.getElementById(
+      "makeupPeriodsError"
+    ).textContent = "";
+  }
+
+
+  // =========================
+  // メール
+  // =========================
+
+  if (
+    !email.value.trim()
+  ) {
+
+    errors.push(
+      "メール"
+    );
+
+    document.getElementById(
+      "emailError"
+    ).textContent =
+      "メールアドレスを入力してください。";
+
+  } else if (
+    !isValidEmailClient(
+      email.value.trim()
+    )
+  ) {
+
+    errors.push(
+      "メール"
+    );
+
+    document.getElementById(
+      "emailError"
+    ).textContent =
+      "メールアドレスの形式が正しくありません。";
+
+  } else {
+
+    document.getElementById(
+      "emailError"
+    ).textContent = "";
+  }
+
+
+  return (
+    errors.length === 0
+  );
+}
+
+
+// ========================================
+// 確認ボタン状態
+// ========================================
+
+function updateConfirmButtonState() {
+
+  confirmButton.disabled =
+    !validateForm();
+}
+
+
+// ========================================
+// 日付表示
+// ========================================
+
+function formatJapaneseDateClient(
+  dateString
+) {
+
+  if (!dateString) {
+    return "";
+  }
+
+
+  const date =
+    parseDateClient(
+      dateString
+    );
+
+
+  if (!date) {
+    return dateString;
+  }
+
+
+  const weekdays = [
+    "日",
+    "月",
+    "火",
+    "水",
+    "木",
+    "金",
+    "土"
+  ];
+
+
+  return (
+    date.getFullYear() +
+    "年" +
+    (date.getMonth() + 1) +
+    "月" +
+    date.getDate() +
+    "日（" +
+    weekdays[
+      date.getDay()
+    ] +
+    "）"
+  );
+}
+
+
+// ========================================
+// 確認画面
+// ========================================
+
+function showConfirmation() {
+
+  if (!validateForm()) {
+    return;
+  }
+
+
+  const absencePeriods =
+    getSelectedPeriods(
+      absencePeriodsContainer
+    );
+
+
+  const makeupPeriods =
+    getSelectedPeriods(
+      makeupPeriodsContainer
+    );
+
+
+  document.getElementById(
+    "confirmApplicationType"
+  ).textContent =
+    registeredAbsenceMakeup.checked
+      ? "欠席登録済みの授業の振替"
+      : "通常の欠席・振替申請";
+
+
+  document.getElementById(
+    "confirmStudentId"
+  ).textContent =
+    studentId.value.trim();
+
+
+  document.getElementById(
+    "confirmStudentName"
+  ).textContent =
+    studentName.value.trim();
+
+
+  document.getElementById(
+    "confirmAbsenceDate"
+  ).textContent =
+    formatJapaneseDateClient(
+      absenceDate.value
+    );
+
+
+  document.getElementById(
+    "confirmAbsencePeriods"
+  ).textContent =
+    absencePeriods
+      .map(
+        period =>
+          period +
+          " " +
+          PERIODS[period]
+      )
+      .join("、");
+
+
+  document.getElementById(
+    "confirmMakeupDate"
+  ).textContent =
+    makeupUndecided.checked
+      ? "未定"
+      : formatJapaneseDateClient(
+          makeupDate.value
+        );
+
+
+  document.getElementById(
+    "confirmMakeupPeriods"
+  ).textContent =
+    makeupUndecided.checked
+      ? "未定"
+      : makeupPeriods
+          .map(
+            period =>
+              period +
+              " " +
+              PERIODS[period]
+          )
+          .join("、");
+
+
+  document.getElementById(
+    "confirmNotes"
+  ).textContent =
+    notes.value.trim() ||
+    "なし";
+
+
+  document.getElementById(
+    "confirmEmail"
+  ).textContent =
+    email.value.trim();
+
+
+  formScreen.style.display =
+    "none";
+
+
+  confirmationScreen.style.display =
+    "block";
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
   });
 }
-function setupDates(){
-  $("absenceDate").addEventListener("change",()=>{renderPeriods($("absencePeriods"),$("absenceDate").value,"absence");setMakeupRange();validate()});
-  $("makeupDate").addEventListener("change",()=>{renderPeriods($("makeupPeriods"),$("makeupDate").value,"makeup");validate()});
-  $("undecided").addEventListener("change",()=>{$("makeupFields").classList.toggle("hidden",$("undecided").checked);validate()});
-}
-function setMakeupRange(){
-  const d=dateObj($("absenceDate").value); if(!d){$("makeupDate").removeAttribute("min");$("makeupDate").removeAttribute("max");return}
-  const max=new Date(d);max.setDate(max.getDate()+28);
-  $("makeupDate").min=$("absenceDate").value;
-  $("makeupDate").max=max.toISOString().slice(0,10);
-  if($("makeupDate").value && ( $("makeupDate").value<$("makeupDate").min || $("makeupDate").value>$("makeupDate").max)){ $("makeupDate").value="";$("makeupPeriods").innerHTML=""}
-}
-function validate(){
-  const errors=[];
-  const id=$("studentId").value.trim(),name=$("studentName").value.trim(),email=$("email").value.trim(),ad=$("absenceDate").value,ap=selected($("absencePeriods"));
-  if(!/^\d+$/.test(id))errors.push("生徒IDは半角数字で入力してください。");
-  if(!name)errors.push("生徒名を入力してください。");
-  if(!/^\S+@\S+\.\S+$/.test(email))errors.push("メールアドレスの形式を確認してください。");
-  const a=dateObj(ad); if(!a)errors.push("欠席希望日を入力してください。"); else if(!AVAILABLE[a.getDay()].length)errors.push("欠席日は休校日です。");
-  if(!ap.length)errors.push("欠席時間を選択してください。");
-  if(!$("undecided").checked){
-    const md=$("makeupDate").value,mp=selected($("makeupPeriods")),m=dateObj(md);
-    if(!m)errors.push("振替希望日を入力してください。");
-    else {const max=new Date(a);if(a){max.setDate(max.getDate()+28);if(m<a||m>max)errors.push("振替日は欠席日から4週間以内で指定してください。")}if(!AVAILABLE[m.getDay()].length)errors.push("振替日は休校日です。")}
-    if(!mp.length)errors.push("振替時間を選択してください。");
+
+
+// ========================================
+// 送信
+// ========================================
+
+function submitApplication() {
+
+  /**
+   * 送信直前にもクライアント側で
+   * 再チェック。
+   */
+  if (!validateForm()) {
+    alert(
+      "入力内容を確認してください。"
+    );
+    return;
   }
-  $("validationMessage").textContent=errors[0]||"";
-  $("confirmButton").disabled=errors.length>0;
-  return errors.length===0;
+
+
+  const data = {
+
+    studentId:
+      studentId.value.trim(),
+
+    studentName:
+      studentName.value.trim(),
+
+    absenceDate:
+      absenceDate.value,
+
+    absencePeriods:
+      getSelectedPeriods(
+        absencePeriodsContainer
+      ),
+
+    makeupDate:
+      makeupUndecided.checked
+        ? "未定"
+        : makeupDate.value,
+
+    makeupPeriods:
+      makeupUndecided.checked
+        ? ["未定"]
+        : getSelectedPeriods(
+            makeupPeriodsContainer
+          ),
+
+    makeupUndecided:
+      makeupUndecided.checked,
+
+    registeredAbsenceMakeup:
+      registeredAbsenceMakeup.checked,
+
+    notes:
+      notes.value.trim(),
+
+    email:
+      email.value.trim()
+
+  };
+
+
+  document.getElementById(
+    "submitButton"
+  ).disabled = true;
+
+
+  document.getElementById(
+    "backButton"
+  ).disabled = true;
+
+
+  document.getElementById(
+    "loading"
+  ).style.display =
+    "block";
+
+
+  // GitHub Pages → GAS は JSONP で送信します。
+  // 別ドメイン間でもブラウザのCORS制約を受けません。
+  const callbackName =
+    "gasCallback_" + Date.now();
+
+  window[callbackName] = function(result) {
+
+    try {
+      if (result && result.success) {
+
+        confirmationScreen.style.display = "none";
+        successScreen.style.display = "block";
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
+      } else {
+        alert(
+          result && result.message
+            ? result.message
+            : "申請処理に失敗しました。"
+        );
+        resetSubmitState();
+      }
+    } finally {
+      delete window[callbackName];
+    }
+  };
+
+  const params = new URLSearchParams();
+  params.set("api", "1");
+  params.set("callback", callbackName);
+  params.set("data", JSON.stringify(data));
+
+  const script = document.createElement("script");
+  script.src =
+    "https://script.google.com/macros/s/AKfycbxwgAcljq6RaHkBWPKpVmbZe7QmOFG03NNlfjimylddJlcPNNHweumPuB06dLgvHmOW/exec" +
+    "?" +
+    params.toString();
+
+  script.onerror = function() {
+    alert("申請の送信に失敗しました。時間をおいてもう一度お試しください。");
+    delete window[callbackName];
+    resetSubmitState();
+  };
+
+  document.body.appendChild(script);
+
+  function resetSubmitState() {
+    document.getElementById("submitButton").disabled = false;
+    document.getElementById("backButton").disabled = false;
+    document.getElementById("loading").style.display = "none";
+  }
 }
-["studentId","studentName","email","notes"].forEach(id=>$(id).addEventListener("input",validate));
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-$("confirmButton").addEventListener("click",()=>{
- if(!validate())return;
- const ad=$("absenceDate").value,ap=selected($("absencePeriods")),und=$("undecided").checked,md=$("makeupDate").value,mp=selected($("makeupPeriods"));
- $("summary").innerHTML=
-  "<b>生徒ID：</b>"+esc($("studentId").value.trim())+"<br><b>生徒名：</b>"+esc($("studentName").value.trim())+
-  "<br><b>メール：</b>"+esc($("email").value.trim())+"<br><b>欠席希望日：</b>"+jpDate(ad)+
-  "<br><b>欠席時間：</b>"+ap.map(p=>p+" "+PERIODS[p]).join("、")+"<br><b>振替希望日：</b>"+(und?"未定":jpDate(md))+
-  "<br><b>振替希望時間：</b>"+(und?"未定":mp.map(p=>p+" "+PERIODS[p]).join("、"))+
-  "<br><b>連絡事項：</b>"+esc($("notes").value.trim()||"なし");
- $("confirmCard").classList.remove("hidden");$("confirmButton").classList.add("hidden");window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
-});
-$("backButton").addEventListener("click",()=>{$("confirmCard").classList.add("hidden");$("confirmButton").classList.remove("hidden");$("submitMessage").textContent=""});
-$("submitButton").addEventListener("click",async()=>{
- $("submitButton").disabled=true;$("backButton").disabled=true;$("submitMessage").textContent="送信中です…";
- const data={studentId:$("studentId").value.trim(),studentName:$("studentName").value.trim(),absenceDate:$("absenceDate").value,absencePeriods:selected($("absencePeriods")),makeupDateUndecided:$("undecided").checked,makeupDate:$("makeupDate").value,makeupPeriods:selected($("makeupPeriods")),email:$("email").value.trim(),notes:$("notes").value.trim()};
- try{
-   const res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
-   const json=await res.json();
-   if(!json.success)throw new Error(json.message||"申請処理中にエラーが発生しました。");
-   $("submitMessage").className=json.mailSuccess?"ok":"error";
-   $("submitMessage").textContent=json.mailSuccess?"申請を受け付けました。メールアドレスへ申請内容の控えを送信しました。":"確認メールの送信に失敗しました。メールアドレスを確認してください。";
-   $("submitButton").classList.add("hidden");$("backButton").classList.add("hidden");
- }catch(e){$("submitMessage").className="error";$("submitMessage").textContent=e.message||"申請処理中にエラーが発生しました。";$("submitButton").disabled=false;$("backButton").disabled=false}
-});
-setupDates();
-renderPeriods($("absencePeriods"),"","absence");renderPeriods($("makeupPeriods"),"","makeup");
+
+
+// ========================================
+// イベント
+// ========================================
+
+
+// 欠席登録済み振替チェック
+registeredAbsenceMakeup.addEventListener(
+  "change",
+  handleRegisteredAbsenceMakeupChange
+);
+
+
+// 欠席日
+absenceDate.addEventListener(
+  "change",
+  handleAbsenceDateChange
+);
+
+absenceDate.addEventListener(
+  "input",
+  handleAbsenceDateChange
+);
+
+
+// 振替日
+makeupDate.addEventListener(
+  "change",
+  handleMakeupDateChange
+);
+
+makeupDate.addEventListener(
+  "input",
+  handleMakeupDateChange
+);
+
+
+// 振替日未定
+makeupUndecided.addEventListener(
+  "change",
+  handleMakeupUndecidedChange
+);
+
+
+// 各入力
+studentId.addEventListener(
+  "input",
+  updateConfirmButtonState
+);
+
+studentName.addEventListener(
+  "input",
+  updateConfirmButtonState
+);
+
+notes.addEventListener(
+  "input",
+  updateConfirmButtonState
+);
+
+email.addEventListener(
+  "input",
+  updateConfirmButtonState
+);
+
+
+// ========================================
+// 確認
+// ========================================
+
+confirmButton.addEventListener(
+  "click",
+  showConfirmation
+);
+
+
+// ========================================
+// 戻る
+// ========================================
+
+document.getElementById(
+  "backButton"
+).addEventListener(
+  "click",
+  function() {
+
+    confirmationScreen.style.display =
+      "none";
+
+
+    formScreen.style.display =
+      "block";
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+);
+
+
+// ========================================
+// 送信
+// ========================================
+
+document.getElementById(
+  "submitButton"
+).addEventListener(
+  "click",
+  submitApplication
+);
+
+
+// ========================================
+// 初期化
+// ========================================
+
+updateAbsenceDateRange();
+
+updateAbsencePeriods();
+
+updateMakeupDateRange();
+
+updateMakeupDateState();
+
+updateConfirmButtonState();
+
+
+// ========================================
+// フォームを開いたまま時間が経過した場合に備え、
+// 30秒ごとに5分ルールを再判定
+// ========================================
+
+setInterval(
+  function() {
+
+    if (
+      formScreen.style.display !==
+      "none"
+    ) {
+
+      updateConfirmButtonState();
+    }
+
+  },
+  30000
+);
+
+
 </script>
+
+
 </body>
+
 </html>
